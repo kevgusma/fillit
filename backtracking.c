@@ -86,7 +86,7 @@ int set_a_jeton(char **square, struct s_list *list, int i, int j)
     j += list->y[coord] - list->y[coord - 1];
     if (i == 4 || j == 4) // sinon segfault voir plus haut connard
     {
-      square = remove_jeton(square, (*list)->id);
+      square = remove_jeton(square, list->id);
       return (-1);
     }
   //  printf("i = %d et %d\n", i, j);
@@ -115,7 +115,8 @@ int  brute_force(struct s_list *list, char **square, int previ, int prevj)
       {
         if (set_a_jeton(square, list, i, j) == 0)
         {
-          brute_force(list->next, square, i, j++); // seg peu etre
+          if (brute_force(list->next, square, i, j++) == -1)
+            remove_jeton(square, list->id); // seg peu etre
         }
       }
       j++;

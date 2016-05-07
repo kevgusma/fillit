@@ -31,7 +31,6 @@ typedef struct  s_list
   int           x[4];
   int           y[4];
   struct s_list *next;
-  struct s_list *prev;
 }               t_list;
 
 struct s_list *ft_check_buf(char *buf);

@@ -1,111 +1,94 @@
 #include "fillit.h"
 
-char **remove_jeton(char **square, char id)
+char	**remove_jeton(char **square, char id)
 {
-  int i;
-  int j;
+	int	i;
+	int	j;
 
-//display(square);
-  i = 0;
-  while (square[i])
-  {
-    j = 0;
-    while(square[i][j])
-    {
-      if (square[i][j] == id)
-      {
-        square[i][j] = '.';
-      }
-      j++;
-    }
-    i++;
-  }
-  return (square);
+	i = 0;
+	while (square[i])
+	{
+		j = 0;
+		while (square[i][j])
+		{
+			if (square[i][j] == id)
+				square[i][j] = '.';
+			j++;
+		}
+		i++;
+	}
+	return (square);
 }
 
-int set_a_jeton(char **square, struct s_list *list, int i, int j)
+int		set_a_jeton(char **square, struct s_list *list, int i, int j)
 {
-  int coord;
-  size_t  lenght;
+	int		coord;
+	size_t	lenght;
 
-  coord = 0;
-  lenght = ft_strlen(square[0]);
-  while (coord < 4)
-  {
-    if (square[i][j] && square[i][j] == '.')
-      square[i][j] = list->id;
-    else
-    {
-      square = remove_jeton(square, list->id);
-      return (-1);
-    }
-    coord++;
-    if (coord == 4)
-      break ;
-    i += list->x[coord] - list->x[coord - 1];
-    j += list->y[coord] - list->y[coord - 1];
-    if (i >= (int)lenght || j >= (int)lenght)
-    {
-      square = remove_jeton(square, list->id);
-      return (-1);
-    }
-  }
-  return (0);
+	coord = 0;
+	lenght = ft_strlen(square[0]);
+	while (coord < 4)
+	{
+		if (square[i][j] && square[i][j] == '.')
+			square[i][j] = list->id;
+		else
+		{
+			square = remove_jeton(square, list->id);
+			return (-1);
+		}
+		if (++coord == 4)
+			break ;
+		i += list->x[coord] - list->x[coord - 1];
+		j += list->y[coord] - list->y[coord - 1];
+		if (i >= (int)lenght || j >= (int)lenght)
+		{
+			square = remove_jeton(square, list->id);
+			return (-1);
+		}
+	}
+	return (0);
 }
 
 // (i*LARGEUR_TABLEAU) + j peut etre une position passer en parametre
 // pour le retrouver i = position / par la largeur et j = position% largeur
 //
 
-int  brute_force(struct s_list *list, char **square)
+int		brute_force(struct s_list *list, char **square)
 {
-  int i;
-  int j;
+	int	i;
+	int	j;
 
-  if (list == NULL)
-    return (1);
-  i = 0;
-  //printf("i = %d et j = %d\n", i ,j);
-  while (square[i])
-  {
-    j = 0;
-    while (square[i][j])
-    {
-      if (square[i][j] == '.')
-      {
-      //  printf("i = %d, j = %d, id = %c\n", i, j, list->id);
-        if (set_a_jeton(square, list, i, j) == 0)
-        {
-          //ft_putendl("jeton set");
-        //  display(square);
-        //  sleep(1);
-          if (brute_force(list->next, square) == 1)
-          {
-            return (1);
-          }
-          else
-            remove_jeton(square, list->id); // seg peu etre
-
-        }
-      }
-      j++;
-    }
-    i++;
-  }
-  return (-1);
+	if (list == NULL)
+		return (1);
+	i = -1;
+	while (square[++i])
+	{
+		j = -1;
+		while (square[i][++j])
+		{
+			if (square[i][j] == '.')
+			{
+				if (set_a_jeton(square, list, i, j) == 0)
+				{
+					if (brute_force(list->next, square) == 1)
+						return (1);
+					else
+						remove_jeton(square, list->id);
+				}
+			}
+		}
+	}
+	return (-1);
 }
 
-void  backtracking(struct s_list *list, size_t nb_jeton)
+void	backtracking(struct s_list *list, size_t nb_jeton)
 {
-  char **square;
-  int  carre;
+	char	**square;
+	int		carre;
 
-  (void)*list;
-  printf("nb_jeton = %zu\n", nb_jeton);
-  carre = fake_sqrt(nb_jeton * 4);
-  printf("taille du carre = %d\n", carre);
-  square = make_square(carre);
-  while (brute_force(list, square) != 1)
-    square = make_square(carre++);
-  display(square);
+	carre = fake_sqrt(nb_jeton * 4);
+	square = make_square(carre);
+	while (brute_force(list, square) != 1)
+		square = make_square(carre++);
+	display(square);
 }

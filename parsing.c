@@ -6,7 +6,7 @@
 /*   By: kevgusma <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/07 19:10:59 by kevgusma          #+#    #+#             */
-/*   Updated: 2016/05/07 19:36:10 by kevgusma         ###   ########.fr       */
+/*   Updated: 2016/05/07 20:06:13 by kevgusma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,24 +96,6 @@ struct s_list	*set_a_node(char **buf, struct s_list *list)
 	return (list);
 }
 
-void			show_coord(struct s_list *list)
-{
-  int	cmpt;
-
-  while (list)
-  {
-    cmpt = 0;
-    printf("id de la piece %c\n", list->id);
-    while (cmpt < 4)
-    {
-      printf("coord %d , %d\n", list->x[cmpt], list->y[cmpt]);
-      cmpt++;
-    }
-    ft_putendl("");
-    list = list->next;
-  }
-}
-
 struct s_list	*ft_check_buf(char *buf)
 {
 	int				i;
@@ -139,6 +121,5 @@ struct s_list	*ft_check_buf(char *buf)
 	while (split_buf[++i])
 		if (i % 4 == 0)
 			list = set_a_node(&split_buf[i], list);
-	show_coord(list);
 	return (list);
 }

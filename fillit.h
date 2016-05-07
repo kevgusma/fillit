@@ -22,19 +22,20 @@
 # include <stdio.h>
 
 # define MAX_CHAR 545
-# define DEFAULT 4
 
 typedef struct  s_list
 {
-  char          **jeton; // plus besoin de save la piece
   char          id;
   int           x[4];
   int           y[4];
   struct s_list *next;
 }               t_list;
 
-struct s_list *ft_check_buf(char *buf);
+struct s_list   *ft_check_buf(char *buf);
+void display(char **square);
+char **make_square(size_t lenght);
 void  ft_error(char *str);
 void  backtracking(struct s_list *list, size_t nb_jeton);
+int   fake_sqrt(int decim);
 
 #endif

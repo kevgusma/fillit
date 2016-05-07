@@ -14,7 +14,7 @@ NAME = fillit
 
 FLAG = -Wall -Werror -Wextra
 
-SRC = fillit.c parsing.c backtracking.c
+SRC = fillit.c parsing.c backtracking.c square.c
 
 LIB = libft
 
